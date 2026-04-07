@@ -18,9 +18,9 @@ const { products, handleIncrementQuantity, handleDecrementQuantity } = useProduc
       @increment="() => handleIncrementQuantity(product.id)" 
       @decrement="() => handleDecrementQuantity(product.id)"/>
 
-      <Suspense>
+      <!-- <Suspense> -->
         <PokemonInfo />
-      </Suspense>
+      <!-- </Suspense> -->
   </div>
 
 </template>

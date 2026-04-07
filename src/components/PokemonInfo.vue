@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useFetch } from '../composable/useFetch';
 
 
@@ -28,13 +28,16 @@ const pokemon = ref<Pokemon | null>(null)
 // const responseData = await response.json()
 // console.log({responseData})
 
-const {data: responseData} = await useFetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
+const { data, hasError, error, isLoading } = useFetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
 
-pokemon.value = {
-  id: responseData.id,
-  name: responseData.name,
-  image: responseData.sprites.front_default
-}
+watch(data, (newPokemon: any) => {
+  pokemon.value = {
+    id: newPokemon.id,
+    name: newPokemon.name,
+    image: newPokemon.sprites.front_default
+  }
+})
+
 
 </script>
 
