@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="$props.quantity !== 0">
         <span>{{ name }}</span>
 
         <button @click="$emit('decrement')">-</button>
@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 defineProps<{
+  id: number
   name: string;
   quantity: number;
 }>()

@@ -3,17 +3,35 @@
 import {ref} from 'vue'
 import ShoppingCart from './components/ShoppingCart.vue';
 
-const product = ref({
-  name: "Camiseta",
-  quantity: 10
-})
+const products = ref([
+  {
+    id: 1,
+    name: "Camiseta",
+    quantity: 10
+  },
+  {
+    id: 2,
+    name: "Pantalón",
+    quantity: 5
+  },
+  {
+    id: 3,
+    name: "Zapatos",
+    quantity: 3
+  }
+])
 
-function handleIncrementQuantity() {
-  product.value.quantity++
+function handleIncrementQuantity(productId: number) {
+  const product = products.value.find((product) => product.id === productId)
+  if(!product) return
+  product.quantity++
 }
 
-function handleDecrementQuantity() {
-  product.value.quantity--
+function handleDecrementQuantity(productId: number) {
+  const product = products.value.find((product) => product.id === productId)
+  if(!product) return
+  if(product.quantity === 0 ) return
+  product.quantity--
 }
 
 </script>
@@ -22,8 +40,10 @@ function handleDecrementQuantity() {
   <div>
     <h1>Mi carrito de compras</h1>
 
-    <ShoppingCart v-bind="product" 
-      @increment="handleIncrementQuantity" 
-      @decrement="handleDecrementQuantity"/>
+    <ShoppingCart 
+      v-for="product in products" key="product.id"
+      v-bind="product" 
+      @increment="() => handleIncrementQuantity(product.id)" 
+      @decrement="() => handleDecrementQuantity(product.id)"/>
   </div>
 </template>
