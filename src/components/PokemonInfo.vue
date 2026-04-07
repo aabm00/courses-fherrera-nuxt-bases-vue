@@ -1,12 +1,12 @@
 <template>
-    <section>
-        <h2>#1 Bulbasaur</h2>
-        <img src="" alt="">
+    <section v-if="pokemon">
+        <h2>#{{ pokemon.id }} {{pokemon.name}}</h2>
+        <img :src="pokemon.image" :alt="pokemon.name">
 
         <button @click="pokemonId++">Siguiente</button>
         <h3>PokemonId: {{ pokemonId }}</h3>
 
-        <pre>{{ responseData }}</pre>
+        <!-- <pre>{{ responseData }}</pre> -->
     </section>
 </template>
 
@@ -21,13 +21,33 @@ interface Pokemon {
 }
 
 const pokemonId = ref(1);
+const pokemon = ref<Pokemon | null>(null) 
 
 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
 const responseData = await response.json()
 console.log({responseData})
 
+pokemon.value = {
+  id: responseData.id,
+  name: responseData.name,
+  image: responseData.sprites.front_default
+}
+
 </script>
 
 <style scoped>
 
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  img {
+    width: 100px;
+    height: 100px;
+  }
+  button {
+    padding: 10px 20px;
+  }
 </style>
