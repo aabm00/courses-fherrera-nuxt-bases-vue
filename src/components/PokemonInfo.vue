@@ -3,6 +3,7 @@
         <h2>#{{ pokemon.id }} {{pokemon.name}}</h2>
         <img :src="pokemon.image" :alt="pokemon.name">
 
+        <button :disabled="pokemonId === 1" @click="pokemonId--">Anterior</button>
         <button @click="pokemonId++">Siguiente</button>
         <h3>PokemonId: {{ pokemonId }}</h3>
 
@@ -29,7 +30,9 @@ const pokemon = ref<Pokemon | null>(null)
 // const responseData = await response.json()
 // console.log({responseData})
 
-const { data, hasError, error, isLoading } = useFetch<PokeapiPokemonResponse>(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
+const { data, hasError, error, isLoading } = useFetch<PokeapiPokemonResponse>(
+  () => `https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`
+)
 
 watch(data, (newPokemon) => {
   if(!newPokemon) return 
