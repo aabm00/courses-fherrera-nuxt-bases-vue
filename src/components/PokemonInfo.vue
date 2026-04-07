@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useFetch } from '../composable/useFetch';
 
 
 interface Pokemon {
@@ -23,9 +24,11 @@ interface Pokemon {
 const pokemonId = ref(1);
 const pokemon = ref<Pokemon | null>(null) 
 
-const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
-const responseData = await response.json()
-console.log({responseData})
+// const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
+// const responseData = await response.json()
+// console.log({responseData})
+
+const {data: responseData} = await useFetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId.value}`)
 
 pokemon.value = {
   id: responseData.id,
